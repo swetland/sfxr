@@ -90,6 +90,8 @@ static void ddkSetMode (int width, int height, int bpp, int refreshrate, int ful
 	SDL_WM_SetCaption(title, title);
 }
 
+#if WITH_GTK
+
 #include <gtk/gtk.h>
 #include <string.h>
 #include <malloc.h>
@@ -185,6 +187,18 @@ static bool select_file (char *buf)
 
 #endif
 
+#else
+
+static bool FileSelectorLoad(void *h, char *fname, int n) {
+	strcpy(fname, n ? "noise.cfg" : "noise.wav");
+	return true;
+}
+static bool FileSelectorSave(void *h, char *fname, int n) {
+	strcpy(fname, n ? "noise.cfg" : "noise.wav");
+	return true;
+}
+#endif
+
 static void sdlquit ()
 {
 	ddkFree();
@@ -233,7 +247,9 @@ static void loop (void)
 
 int main (int argc, char *argv[])
 {
+#if WITH_GTK
 	gtk_init(&argc, &argv);
+#endif
 	sdlinit();
 	loop();
 	return 0;

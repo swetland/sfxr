@@ -1,7 +1,10 @@
 CFLAGS=-ggdb
 GTK=3.0
-CXXFLAGS=$(CFLAGS) `sdl-config --cflags` `pkg-config gtk+-${GTK} --cflags`
-LDFLAGS=`sdl-config --libs` `pkg-config gtk+-${GTK} --libs`
+CXXFLAGS:=$(CFLAGS) `sdl-config --cflags`
+LDFLAGS:=`sdl-config --libs`
+
+#CXXFLAGS+=`pkg-config gtk+-${GTK} --cflags` -DWITH_GTK=1
+#LDFLAGS+=`pkg-config gtk+-${GTK} --libs`
 
 sfxr: main.cpp tools.h sdlkit.h
 	$(CXX) $< $(CXXFLAGS) $(LDFLAGS) -o $@
